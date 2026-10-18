@@ -1,24 +1,27 @@
+# Computed energy levels and wavefunctions of Hydrogrn Atom using the Finite Difference Method.
+
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.linalg import eigh
+#  contants
 hbar=1
 u=1
 e=1
 k=1
 
-# 1. Computational Domain and Grid
-N = 1000  # Number of grid points
-a = 0.01
-b = 20 # Maximum radial distance (in Bohr radii)
-r = np.linspace( a,b,N)  # Avoid r=0 to prevent division by zero
-dr = r[1] - r[0]  # Step size
+# 1. Computational Domains and Grid, N=Number of grid points,dr=Step size
+N = 1000  
+a = 0
+b = 20 
+r = np.linspace( a,b,N)  
+dr = r[1] - r[0] 
 
-# 2. Quantum Number and Potential
+# 2. Quantum Number(l) and defening the Potential
 l=0
 def Vpot():
   return (l * (l + 1))*hbar*hbar / (2*u*r**2) - e*e*k /r  # Effective Coulomb potential
 
-# 3. Kinetic Energy Matrix (Finite Difference Second Derivative)
+# 3. Kinetic Energy Matrix,Potential Matrix and the Hamiltonian Matrix
 T=np.zeros((N-2,N-2))
 # diagonal elements
 for i in range(N-2):
@@ -44,28 +47,28 @@ print(V)
 
 H= T+ V
 
-# Fix boundary conditions: u(0) = 0 and u(r_max) = 0 (handled by restricted interior or zero padding)
 
-# 4. Solve the Eigenvalue Problem
+
+# 4. Solving the Eigenvalue Problem
 E,Radial_Wavefunction = eigh(H)
 print("Lowest three energies:")
 print(E[0:3])
 
 # 5. Ground-state radial wavefunction
-u0 = Radial_Wavefunction[:, 2]
+u0 = Radial_Wavefunction[:, 0]
 # Convert discrete normalization to continuum normalization
 u0 /= np.sqrt(np.sum(np.abs(u0)**2) * dr)
 # Add boundary conditions
 u_full = np.zeros(N)
+# Fix boundary conditions: u(0) = 0 and u(r_max) = 0 )
 u_full[1:-1] = u0
 
-# Plot
+# 6.Plottig of r v/s u(r) with energy having unit Ha
 plt.figure(figsize=(8, 5))
-plt.plot(r, u_full, label=f"$E_0 = {E[0]:.6f}$ Ha")
-
+plt.plot(r, u_full, label=f"$E_0 = {E[0]:.3f}$ Ha")
 plt.title("Hydrogen Atom Ground-State Radial Wavefunction")
-plt.xlabel("$r$ (Bohr radii)")
-plt.ylabel("$u(r)$")
+plt.xlabel("r(Bohr radius)")
+plt.ylabel("u(r)")
 plt.legend()
 plt.grid(True)
 plt.show()
