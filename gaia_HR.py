@@ -1,12 +1,15 @@
+# Plotted absoulte magnitude(M_G) against color index(bp-rp)for 5000 
+# nearby stars with reliable parallaxes.
+   
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from astroquery.gaia import Gaia
 Gaia.ROW_LIMIT = -1
 
-#1. Query data for top 2000 stars with paralax above 10.
+#1. Query data for top 5000 stars with paralax above 10.
 adql_query = '''
-select top 2000 parallax, phot_g_mean_mag, bp_rp, parallax_over_error ,ruwe
+select top 5000 parallax, phot_g_mean_mag, bp_rp, parallax_over_error ,ruwe
 from gaiadr3.gaia_source
 where parallax>10
   and parallax_over_error>10
