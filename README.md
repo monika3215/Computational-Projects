@@ -1,4 +1,4 @@
-
+ 
 This project contains solution for computational problems:
 
 1. Blackbody Radiation:
@@ -10,4 +10,9 @@ This project contains solution for computational problems:
 3. Hydrogen Atom:
    Computed energy levels and wavefunctions in Python using 
    the Finite Difference Method.
+
+4. Gaia HR-diagram from Gaia DR3:
+   Queried Gaia DR3 with Astroquery and plotted absoulte magnitude against color index for 5000
+   nearby stars with reliable parallaxes.
+   
 
